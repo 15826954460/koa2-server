@@ -19,7 +19,7 @@ let MySqlConfig = {
 /**
  * @description redis 配置(内存数据库)
  */
-let redisConfig = {
+let RedisConfig = {
   prot: 6379, // 默认端口
   host: '127.0.0.1' // 本机域名地址
 };
@@ -43,8 +43,8 @@ if (isDev) {
     ...MySqlConfig,
   }
 
-  redisConfig = {
-    ...redisConfig,
+  RedisConfig = {
+    ...RedisConfig,
   }
   // 测试环境配置
 } else if (isProd) {
@@ -58,13 +58,13 @@ if (isDev) {
     }
   }
 
-  redisConfig = {
-    ...redisConfig,
+  RedisConfig = {
+    ...RedisConfig,
   }
 }
 
 module.exports = {
   MySqlConfig,
   LocalConfig,
-  redisConfig
+  RedisConfig
 };

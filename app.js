@@ -11,6 +11,9 @@ function resolve(dir) {
   return path.join(__dirname, dir);
 }
 
+/**
+ * @description 路由
+*/
 const index = require(resolve('/routes/index'))
 const users = require(resolve('/routes/users'))
 

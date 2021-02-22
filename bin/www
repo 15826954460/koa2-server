@@ -14,8 +14,6 @@ function resolve(dir) {
 }
 const { LocalConfig } = require(resolve('../config/index'));
 
-console.log(1111, LocalConfig);
-
 /**
  * Get port from environment and store in Express.
  */

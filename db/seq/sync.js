@@ -31,23 +31,23 @@ const { Users, Blogs } = require('../module/index'); // 引入数据模型
 })();
 
 /**
- * @description 一次性同步所有模型数据
+ * @description 一次性同步所有模型数据,仅供参考
  * @param { force } 参数说明通按需同步 
  * @param { match } Sequelize 使用 match 参数作为附加的安全检查,该检查将接受 RegExp  
 */
 (
   async () => {
-    try {
-      if (!isDev) return;
-      await seq.sync({
-        force: true,
-        match: /^koa2_xinlang_server$/, // 仅当数据库名称为 'koa2_xinlang_server' 结尾时,它才会运行.sync()
-      });
-      console.log("所有模型均已成功同步.");
-      process.exit(); // 退出程序
-    } catch (err) {
-      console.log(err);
-    }
+    // try {
+    //   if (!isDev) return;
+    //   await seq.sync({
+    //     force: true,
+    //     match: /^koa2_xinlang_server$/, // 仅当数据库名称为 'koa2_xinlang_server' 结尾时,它才会运行.sync()
+    //   });
+    //   console.log("所有模型均已成功同步.");
+    //   process.exit(); // 退出程序
+    // } catch (err) {
+    //   console.log(err);
+    // }
   }
 )();
 

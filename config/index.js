@@ -35,7 +35,6 @@ if (isDev) {
     ...MySqlConfig,
     username: 'root', // 用户名
     password: 'bys', // 密码
-    host: 'localhost', // 域名
   }
 } else if (isTest) {
   // 测试环境配置

@@ -18,7 +18,10 @@ async function create(body) {
     const res = await Users.findOne({
       where: { username }
     }, { transaction: t });
-    if (res) return new ErrorModule(userHasExits);
+    if (res) {
+      console.log('---------- 用户名称已经存在');
+      return new ErrorModule(userHasExits);
+    }
 
     // 创建用户
     await Users.create({ username, password, ...params }, {
@@ -42,7 +45,7 @@ async function query(params = {}) {
   }
   return seq.transaction(async t => {
     const res = await Users.findAndCountAll({
-      attributes: ['id', 'username', 'nick_name', 'gender', 'picture', 'city', 'email'], // 查询属性
+      attributes: ['id', 'username', 'nickName', 'gender', 'picture', 'city', 'email'], // 查询属性
       where, // 查询条件
       limit,
       offset,

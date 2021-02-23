@@ -12,29 +12,17 @@ async function createUser(body) {
 };
 
 async function queryUserList() {
-  // query({ id: 1 });
+  query({ id: 1 });
   // query({ limit: 1, offset: 1});
   // query();
 }
 
-// queryUserList();
+queryUserList();
 
-createUser({
-  username: 'test_010',
-  password: 'test_007',
-  gender: 2
-});
 // createUser({
-//   username: 'test_002',
-//   password: '002'
-// });
-// createUser({
-//   username: 'test_003',
-//   password: '003'
-// });
-// createUser({
-//   username: 'test_004',
-//   password: '004'
+//   username: 'test_001',
+//   password: 'test_001',
+//   gender: 2
 // });
 
 module.exports = {

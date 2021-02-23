@@ -51,6 +51,7 @@ async function query(params = {}) {
     const result = rows.map((item) => {
       return { count, ...item.dataValues }
     });
+    console.log(result);
     return new SuccessModule(result);
   }).catch(err => {
     console.log('-------------create', err);

@@ -23,8 +23,8 @@ class BaseModule {
  * @description success 数据模型
  */
 class SuccessModule extends BaseModule {
-  constructor(data = {}) {
-    super({ code: 0, data })
+  constructor({ data = {}, msg = '', code = 0 } = {}) {
+    super({ code, data, msg })
   }
 }
 

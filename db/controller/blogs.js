@@ -4,26 +4,32 @@
  * @description blogs controller
 */
 
-const { create, query } = require('../server/blogs');
+const { create, query, destory } = require('../server/blogs');
 
 // 新增用户
 async function createBlog(body) {
   await create(body);
 };
 
+// createBlog({
+//   title: '' + Math.random(),
+//   content: 'test content 001',
+//   userId: 2,
+//   test: 11111,
+// });
+
 async function queryBlogs() {
   query({ userId: 2 });
   query();
 }
 
-queryBlogs();
+// queryBlogs();
 
-// createBlog({
-//   title: 'blog001',
-//   content: 'test content 001',
-//   userId: 2,
-//   test: 11111,
-// });
+async function del() {
+  destory([12, 13]);
+}
+
+// del();
 
 module.exports = {
   createBlog,

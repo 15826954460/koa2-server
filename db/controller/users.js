@@ -4,12 +4,18 @@
  * @description users cotroller
 */
 
-const { create, query } = require('../server/users');
+const { create, query, destory } = require('../server/users');
 
 // 新增用户
 async function createUser(body) {
   await create(body);
 };
+
+// createUser({
+//   username: 'test_001',
+//   password: 'test_001',
+//   gender: 2
+// });
 
 async function queryUserList() {
   query({ id: 1 });
@@ -17,13 +23,13 @@ async function queryUserList() {
   // query();
 }
 
-queryUserList();
+// queryUserList();
 
-// createUser({
-//   username: 'test_001',
-//   password: 'test_001',
-//   gender: 2
-// });
+async function del() {
+  destory(1);
+}
+
+del();
 
 module.exports = {
   createUser,

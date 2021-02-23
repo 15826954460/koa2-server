@@ -19,7 +19,7 @@ async function create(body) {
       where: { username }
     }, { transaction: t });
     if (res) {
-      console.log('---------- 用户名称已经存在');
+      console.log('----create------ 用户名称已经存在');
       return new ErrorModule(userHasExits);
     }
 
@@ -29,7 +29,7 @@ async function create(body) {
     });
     return new SuccessModule();
   }).catch(err => {
-    console.log('-------------create', err);
+    console.log('---user create err', err);
     return new ErrorModule(sqlError);
   });
 }
@@ -61,13 +61,30 @@ async function query(params = {}) {
       return { count, ...item.dataValues }
     });
     console.log('------------', result);
-    return new SuccessModule(result);
+    return new SuccessModule({ data: result });
   }).catch(err => {
-    console.log('-------------create', err);
+    console.log('------user query err', err);
+    return new ErrorModule(sqlError);
+  });
+}
+
+// 删除用户(建立了外键关联会自动删除用户对应的blog)
+async function destory(id) {
+  if (!id) return new ErrorModule(paramsError);
+  return seq.transaction(async (t) => {
+    const result = await Users.destroy({
+      where: { id }
+    }, {
+        transaction: t
+      });
+    console.log('-----destory-------', result);
+    return new SuccessModule();
+  }).catch((err) => {
+    console.log('------user destory err', err);
     return new ErrorModule(sqlError);
   });
 }
 
 module.exports = {
-  create, query
+  create, query, destory
 }

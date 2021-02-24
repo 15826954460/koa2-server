@@ -6,10 +6,16 @@ const onerror = require('koa-onerror')
 const bodyparser = require('koa-bodyparser')
 const logger = require('koa-logger')
 const path = require('path');
+const session = require('koa-generic-session');
+const redisStore = require('koa-redis');
+const cors = require('koa2-cors');
 
 function resolve(dir) {
   return path.join(__dirname, dir);
 }
+
+const { RedisConfig } = require(resolve('/config'));
+const { SESSION_SECRET_KEY, JWT_SECRET_KEY } = require(resolve('/config/keys'));
 
 /**
  * @description 路由
@@ -19,6 +25,47 @@ const users = require(resolve('/routes/users'))
 
 // error handler
 onerror(app)
+
+/**
+ * 定义允许跨域的 origin
+ */
+const allowOrigins = [
+  'http://localhost:9090',
+];
+app.use(cors({
+  origin: function(ctx) {
+    return ctx.header.roigin;
+    // if (allowOrigins.includes(ctx.header.origin)) {
+    //   return ctx.header.origin;
+    // }
+  },
+  maxAge: 5,
+  credentials: true,
+  allowMethods: ['GET', 'POST', 'PUT', 'DEL'],
+  allowHeaders: ['Content-Type', 'Authorization', 'Accept',],
+  exposeHeaders: ['token'],
+}));
+
+/**
+ * session 配置 有使用才会生效
+ */
+const EXPIRSES_TIME = 24 * 60 * 60 * 1000;
+app.keys = [SESSION_SECRET_KEY]; // 签名的cookie的密钥数组
+app.use(session({
+  key: 'weibo.sid', // cookie name 默认是: koa.sid
+  prefix: 'weibo:sess:', // redis key 默认前缀 默认是 koa:sess: 
+  cookie: {
+    path: '/',                      // 定义访问路径 / => 表示所有的的都可以访问
+    httpOnly: true,                 // 定义只允许服务端修改
+    maxAge: EXPIRSES_TIME,          // cookie 过期时间 单位 ms,
+    overwrite: true,
+    signed: true
+  },
+  ttl: EXPIRSES_TIME, // redis 过期时间,默认和cookie保持一致
+  store: redisStore({
+    all: `${RedisConfig.host}:${RedisConfig.port}`
+  })
+}));
 
 // middlewares
 app.use(bodyparser({

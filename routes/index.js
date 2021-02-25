@@ -1,23 +1,12 @@
-const router = require('koa-router')()
+/**
+ * @author 柏运送
+ * @date 2021-02-25 22:04:54
+ * @description 路由入口文件
+*/
 
-router.get('/', async (ctx, next) => {
-  await ctx.render('index', {
-    title: 'Hello Koa 2!'
-  })
-})
+const test = require('./test');
+const users = require('./users');
 
-router.get('/string', async (ctx, next) => {
-  ctx.body = 'koa2 string'
-})
-
-router.get('/json', async (ctx, next) => {
-  let session = ctx.session;
-  session.count = session.count || 0;
-  session.count++;
-  ctx.body = {
-    title: 'koa2 json',
-    session_count: session.count
-  }
-})
-
-module.exports = router
+module.exports = {
+  test, users
+}

@@ -20,8 +20,7 @@ const { SESSION_SECRET_KEY, JWT_SECRET_KEY } = require(resolve('/config/keys'));
 /**
  * @description 路由
 */
-const index = require(resolve('/routes/index'))
-const users = require(resolve('/routes/users'))
+const { test, users } = require(resolve('/routes'));
 
 // error handler
 onerror(app)
@@ -88,7 +87,7 @@ app.use(async (ctx, next) => {
 })
 
 // routes
-app.use(index.routes(), index.allowedMethods())
+app.use(test.routes(), test.allowedMethods())
 app.use(users.routes(), users.allowedMethods())
 
 // error-handling

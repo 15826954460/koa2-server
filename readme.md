@@ -24,14 +24,16 @@ npm init -y 初始化json文件
 - [redis 内存数据库](https://www.npmjs.com/package/redis)
 - [jest 单元测试](https://jestjs.io/docs/en/getting-started)
 - [mocha document](https://mochajs.org/#parallel-tests)
-- [supertest 单元测试](https://www.npmjs.com/package/supertest)
+- [supertest 接口请求测试](https://www.npmjs.com/package/supertest)
 - [should 单元测试](https://github.com/tj/should.js)
 
 #### mocha 单元测试
 默认执行test文件目录所有以 test.js 结尾的文件
+#### eslint 代码检查
+默认执行src下的所有js
 
 #### 关于Sequelize
 - [模型验证](https://itbilu.com/nodejs/npm/V1PExztfb.html#definition-configuration)
 
 ##### 学习记录
-jest 基本使用 3-7
+jest 基本使用 3-10

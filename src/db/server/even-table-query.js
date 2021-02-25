@@ -28,8 +28,8 @@ async function queryBlogWithUser() {
         }
       ]
     }, {
-        transaction: t
-      });
+      transaction: t
+    });
     const { count, rows } = res;
     const result = rows.map(blog => {
       const blogVal = blog.dataValues;
@@ -62,8 +62,8 @@ async function queryUserWithBlog() {
         }
       ]
     }, {
-        transaction: t
-      });
+      transaction: t
+    });
     const { count, rows } = res;
     const result = rows.map(user => {
       const userVal = user.dataValues;

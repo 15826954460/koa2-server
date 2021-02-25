@@ -12,7 +12,7 @@ const path = require('path');
 function resolve(dir) {
   return path.join(__dirname, dir);
 }
-const { LocalConfig } = require(resolve('../config/index'));
+const { LocalConfig } = require(resolve('../src/config/index'));
 
 /**
  * Get port from environment and store in Express.

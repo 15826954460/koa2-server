@@ -14,13 +14,13 @@ function resolve(dir) {
   return path.join(__dirname, dir);
 }
 
-const { RedisConfig } = require(resolve('/config'));
-const { SESSION_SECRET_KEY, JWT_SECRET_KEY } = require(resolve('/config/keys'));
+const { RedisConfig } = require(resolve('/src//config'));
+const { SESSION_SECRET_KEY, JWT_SECRET_KEY } = require(resolve('/src/config/keys'));
 
 /**
  * @description 路由
 */
-const { test, users } = require(resolve('/routes'));
+const { test, users } = require(resolve('/src/routes'));
 
 // error handler
 onerror(app)
@@ -74,7 +74,7 @@ app.use(json())
 app.use(logger())
 app.use(require('koa-static')(__dirname + '/public'))
 
-app.use(views(__dirname + '/views', {
+app.use(views(__dirname + '/src/views', {
   extension: 'pug'
 }))
 

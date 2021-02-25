@@ -8,7 +8,7 @@ const seq = require('../seq');
 const { Blogs } = require('../module/index');
 const { SuccessModule, ErrorModule } = require('../../response/response');
 const { paramsError, sqlError, serverError } = require('../../response/error-info');
-const { Op } = require("sequelize");
+const { Op } = require('sequelize');
 const utils = require('../../utils/index');
 
 // 创建blog
@@ -47,8 +47,8 @@ async function query(params = {}) {
         ['create_time', 'desc']
       ]
     }, {
-        transaction: t
-      });
+      transaction: t
+    });
     const { count, rows } = res;
     const result = rows.map((item) => {
       return { count, ...item.dataValues }
@@ -78,8 +78,8 @@ async function destory(ids) {
         [Op.or]: or
       }
     }, {
-        transaction: t
-      });
+      transaction: t
+    });
     console.log('blogs destory----', res);
     return new SuccessModule();
   }).catch(err => {

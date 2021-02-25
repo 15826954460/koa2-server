@@ -78,14 +78,14 @@ const Users = seq.define('users', {
     }
   },
 }, {
-    timestamps: true, // 默认允许创建时间
-    // createdAt: false, // 不创建 createdAt
-    createdAt: 'create_time', // 不创建 createdAt
-    updatedAt: 'update_time', // 修改自动创建的 updateAt 名称
-    freezeTableName: true, // 冻结表名,不使用sequilize默认规则
-    tableName: 'users', // 自定义表名
-    underscored: false, // false: 默认使用驼峰命名 true:不使用驼峰命名 updateAt => update_at
-  });
+  timestamps: true, // 默认允许创建时间
+  // createdAt: false, // 不创建 createdAt
+  createdAt: 'create_time', // 不创建 createdAt
+  updatedAt: 'update_time', // 修改自动创建的 updateAt 名称
+  freezeTableName: true, // 冻结表名,不使用sequilize默认规则
+  tableName: 'users', // 自定义表名
+  underscored: false, // false: 默认使用驼峰命名 true:不使用驼峰命名 updateAt => update_at
+});
 
 // console.log(Users === seq.models.Users);
 

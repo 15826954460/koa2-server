@@ -23,7 +23,7 @@ const { Users, Blogs } = require('../module/index'); // 引入数据模型
       Users.sync({ force: false }),
       Blogs.sync({ force: false }),
     ]);
-    console.log("自选模型均已成功同步.");
+    console.log('自选模型均已成功同步.');
     process.exit(); // 退出程序
   } catch (err) {
     console.log(err);

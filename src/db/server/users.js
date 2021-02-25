@@ -54,8 +54,8 @@ async function query(params = {}) {
         ['id', 'asc'], // id 升序
       ], // 排序
     }, {
-        transaction: t
-      });
+      transaction: t
+    });
     const { count, rows } = res;
     const result = rows.map((item) => {
       return { count, ...item.dataValues }
@@ -75,8 +75,8 @@ async function destory(id) {
     const result = await Users.destroy({
       where: { id }
     }, {
-        transaction: t
-      });
+      transaction: t
+    });
     console.log('-----destory-------', result);
     return new SuccessModule();
   }).catch((err) => {

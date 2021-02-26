@@ -78,7 +78,7 @@ async function destory(ids) {
         [Op.or]: or
       }
     }, {
-      transaction: t
+        transaction: t
     });
     console.log('blogs destory----', res);
     return new SuccessModule();

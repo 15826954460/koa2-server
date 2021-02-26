@@ -1,4 +1,16 @@
-#### node-js-koa-server
+## Project
+node-js-koa-server
+
+#### project start
+```
+1. npm install
+2. npm run dev
+```
+
+#### Git url
+`
+https://github.com/15826954460/koa2-server.git
+`
 
 #### git提交规范
 | 类型 | 备注 |
@@ -13,8 +25,18 @@
 | chore: xxx    | 构建过程辅助工具的变动 |
 | markdown: xxx | 编辑markdown文档 |
 
-####
+#### Init package.json
 npm init -y 初始化json文件
+
+#### chrome 调试
+```js
+- "dev": "cross-env NODE_ENV=development ./node_modules/.bin/nodemon bin/www",
++ "dev": "cross-env NODE_ENV=development ./node_modules/.bin/nodemon --inspect=9229 bin/www",
+```
+- 运行项目: npm run dev
+- 浏览器启动项目: localhost:9999
+- 打开新的窗口,输入 chrome://inspect 点击 Open dedicated DevTools for Node 即可查看日志
+- 支持直接输入 debugger 进行调试
 
 #### 第三方依赖
 - [mysql2 数据库](https://www.npmjs.com/package/mysql2)
@@ -26,14 +48,19 @@ npm init -y 初始化json文件
 - [mocha document](https://mochajs.org/#parallel-tests)
 - [supertest 接口请求测试](https://www.npmjs.com/package/supertest)
 - [should 单元测试](https://github.com/tj/should.js)
+- [pre-commit 提交前预校验](https://www.npmjs.com/package/pre-commit)
+- [nodejs inspect 调试](https://nodejs.org/en/docs/inspector)
+- [模型验证](https://itbilu.com/nodejs/npm/V1PExztfb.html#definition-configuration)
 
 #### mocha 单元测试
+`
 默认执行test文件目录所有以 test.js 结尾的文件
-#### eslint 代码检查
-默认执行src下的所有js
+`
 
-#### 关于Sequelize
-- [模型验证](https://itbilu.com/nodejs/npm/V1PExztfb.html#definition-configuration)
+#### eslint 代码检查
+`
+默认执行src下的所有js
+`
 
 ##### 学习记录
 jest 基本使用 3-10

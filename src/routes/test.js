@@ -1,17 +1,30 @@
 const router = require('koa-router')()
 
+// 页面路由
 router.get('/', async (ctx, next) => {
   console.log('debug before');
-  debugger;
-  console.log('debugger after');
+  // debugger;
+  // console.log('debugger after');
+  // 渲染首页
   await ctx.render('index', {
     title: 'Hello Koa 2!'
   })
 })
 
 router.get('/string', async (ctx, next) => {
-  ctx.body = 'koa2 string'
+  throw new Error();
+  // ctx.body = 'koa2 string'
 })
+
+router.get('/error', async (ctx, next) => {
+  await ctx.render('error', {
+    message: 'error message',
+    error: {
+      status: 'error status',
+      stack: 'stack'
+    }
+  });
+});
 
 router.get('/json', async (ctx, next) => {
   ctx.body = {

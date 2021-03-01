@@ -14,7 +14,8 @@ function resolve(dir) {
   return path.join(__dirname, dir);
 }
 
-const { RedisConfig } = require(resolve('/src//config'));
+const { RedisConfig } = require(resolve('/src/config'));
+const { isProd } = require(resolve('/src/config/env'));
 const { SESSION_SECRET_KEY, JWT_SECRET_KEY } = require(resolve('/src/config/keys'));
 
 /**
@@ -23,7 +24,13 @@ const { SESSION_SECRET_KEY, JWT_SECRET_KEY } = require(resolve('/src/config/keys
 const { test, users } = require(resolve('/src/routes'));
 
 // error handler
-onerror(app)
+let onerrorConf = {}
+if (isProd) {
+  onerrorConf = {
+    redirect: '/error'
+  }
+}
+onerror(app, onerrorConf)
 
 /**
  * 定义允许跨域的 origin
@@ -92,6 +99,7 @@ app.use(users.routes(), users.allowedMethods())
 
 // error-handling
 app.on('error', (err, ctx) => {
+  console.log(err);
   console.error('server error', err, ctx)
 });
 

@@ -9,6 +9,7 @@ const path = require('path');
 const session = require('koa-generic-session');
 const redisStore = require('koa-redis');
 const cors = require('koa2-cors');
+const koaJwt = require('koa-jwt');
 
 function resolve(dir) {
   return path.join(__dirname, dir);
@@ -51,6 +52,13 @@ app.use(cors({
   allowHeaders: ['Content-Type', 'Authorization', 'Accept',],
   exposeHeaders: ['token'],
 }));
+
+// jwt
+app.use(koaJwt({ 
+  secret: JWT_SECRET_KEY
+}).unless({
+  path: [/^\/users\/login/]
+})); // unless 排除jwt验证的路由
 
 /**
  * session 配置 有使用才会生效

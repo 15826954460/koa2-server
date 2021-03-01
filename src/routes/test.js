@@ -11,6 +11,7 @@ router.get('/', async (ctx, next) => {
   })
 })
 
+// router 错误捕获结合 app.js koa-onerror
 router.get('/string', async (ctx, next) => {
   throw new Error();
   // ctx.body = 'koa2 string'

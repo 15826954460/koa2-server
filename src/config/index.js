@@ -26,7 +26,7 @@ let RedisConfig = {
 
 // 本地配置
 let LocalConfig = {
-  port: 9999
+  port: 19999
 }
 
 if (isDev) {

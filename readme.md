@@ -51,6 +51,8 @@ npm init -y 初始化json文件
 - [pre-commit 提交前预校验](https://www.npmjs.com/package/pre-commit)
 - [nodejs inspect 调试](https://nodejs.org/en/docs/inspector)
 - [模型验证](https://itbilu.com/nodejs/npm/V1PExztfb.html#definition-configuration)
+- [koa-jwt](https://www.npmjs.com/package/koa-jwt)
+- [jsonwebtoken](https://www.npmjs.com/package/jsonwebtoken)
 
 #### mocha 单元测试
 `
@@ -63,4 +65,4 @@ npm init -y 初始化json文件
 `
 
 ##### 学习记录
-jest 基本使用 3-11
+jest 基本使用 3-14

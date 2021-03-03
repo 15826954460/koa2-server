@@ -70,6 +70,12 @@ npm init -y 初始化json文件
 Authorization: Bearer (服务端返回给前端的token)
 ```
 
+#### 登录存储用户相关信息 jwt vs session
+| jwt | session |
+|:-------- |:---- |
+| 用户信息加密存储在客户端,不依赖cookie,可跨域     | 用户信息加密存储在服务端,依赖cookie,不可跨域 |
+| 更适合服务节点较多,跨域比较多的系统 | 更适合统一的web服务,server 要求严管用户信息|
+
 #### mocha 单元测试
 `
 默认执行test文件目录所有以 test.js 结尾的文件

@@ -1,6 +1,5 @@
 const router = require('koa-router')();
-const jwt = require('jsonwebtoken');
-const { SESSION_SECRET_KEY, JWT_SECRET_KEY } = require('../config/keys');
+
 
 router.prefix('/users')
 

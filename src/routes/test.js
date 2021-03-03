@@ -1,6 +1,12 @@
-const router = require('koa-router')()
+const router = require('koa-router')();
+const jwt = require('jsonwebtoken');
+const util = require('util');
+const verity = util.promisify(jwt.verify);
+router.prefix('/test');
 
-// 页面路由
+const { SESSION_SECRET_KEY, JWT_SECRET_KEY } = require('../config/keys');
+
+// 页面路由 inspect debugger 测试
 router.get('/', async (ctx, next) => {
   console.log('debug before');
   // debugger;
@@ -27,12 +33,45 @@ router.get('/error', async (ctx, next) => {
   });
 });
 
-router.get('/json', async (ctx, next) => {
+// jwt 解密
+router.get('/jwt', async (ctx, next) => {
+  const token = ctx.header.authorization;
+  console.log(token);
+  const payload = await verity(token.split(' ')[1], JWT_SECRET_KEY)
   ctx.body = {
-    title: 'koa2 json',
+    userInfo: payload
   }
 })
 
+// 模拟登录, 服务端生成 jwt 加密
+router.post('/login', async (ctx, next) => {
+  const { username, password } = ctx.request.body;
+  let userInfo;
+  if (username === 'zhangsan' && password === 'abc') {
+    userInfo = {
+      username,
+      password,
+      nickName: 'test_bys'
+    }
+    const token = await jwt.sign(userInfo, JWT_SECRET_KEY, { 
+      expiresIn: 60 * 60 
+    });
+
+    ctx.body = {
+      code: 1,
+      message: 'success',
+      data: token
+    }
+  } else {
+    ctx.body = {
+      code: -1,
+      message: 'error',
+      data: {}
+    }
+  }
+})
+
+// session test
 router.get('/session', async (ctx, next) => {
   let session = ctx.session;
   session.count = session.count || 0;

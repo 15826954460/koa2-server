@@ -53,12 +53,12 @@ app.use(cors({
   exposeHeaders: ['token'],
 }));
 
-// jwt
+// jwt 验证
 app.use(koaJwt({ 
   secret: JWT_SECRET_KEY
 }).unless({
-  path: [/^\/users\/login/]
-})); // unless 排除jwt验证的路由
+  path: [/^\/users\/login/, /^\/test\/login/]
+})); // unless 排除路由的 验证的路由
 
 /**
  * session 配置 有使用才会生效

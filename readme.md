@@ -54,6 +54,22 @@ npm init -y 初始化json文件
 - [koa-jwt](https://www.npmjs.com/package/koa-jwt)
 - [jsonwebtoken](https://www.npmjs.com/package/jsonwebtoken)
 
+#### jwt 使用说明
+```
+// app.js 中添加jwt中间件,放在路由前
++ app.use(koaJwt({ 
++  secret: JWT_SECRET_KEY
++ }).unless({
++  path: [/^\/users\/login/, /^\/test\/login/]
++ })); // unless 排除路由的 验证的路由
+
+// 加密使用参考 https://www.npmjs.com/package/jsonwebtoken
+
+// 客户端如何携带加密的token进行服务端 jwt 验证, 参考 https://jwt.io/introduction/
+// 请求头中携带字段
+Authorization: Bearer (服务端返回给前端的token)
+```
+
 #### mocha 单元测试
 `
 默认执行test文件目录所有以 test.js 结尾的文件
@@ -65,4 +81,4 @@ npm init -y 初始化json文件
 `
 
 ##### 学习记录
-jest 基本使用 3-14
+jest 基本使用 3-15

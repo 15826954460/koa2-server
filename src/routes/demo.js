@@ -8,7 +8,7 @@ const router = require('koa-router')();
 const jwt = require('jsonwebtoken');
 const util = require('util');
 const verity = util.promisify(jwt.verify);
-router.prefix('/test');
+router.prefix('/');
 
 const { JWT_SECRET_KEY } = require('../constants/keys');
 

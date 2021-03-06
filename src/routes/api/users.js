@@ -31,8 +31,7 @@ router.post('/login', async (ctx, next) => {
   if (code === 0 && username && password && !ctx.session.userInfo) {
     ctx.session.userInfo = userInfo;
   }
-  console.log(ctx.session);
-  ctx.body = ctx.session.userInfo;
+  ctx.body = userInfo;
 })
 
 module.exports = router;

@@ -17,12 +17,12 @@ function resolve(dir) {
 
 const { RedisConfig } = require(resolve('/src/config'));
 const { isProd } = require(resolve('/src/config/env'));
-const { SESSION_SECRET_KEY, JWT_SECRET_KEY } = require(resolve('/src/config/keys'));
+const { SESSION_SECRET_KEY, JWT_SECRET_KEY } = require(resolve('/src/constants/keys'));
 
 /**
  * @description 路由
 */
-const { test, users } = require(resolve('/src/routes'));
+const { demo, users } = require(resolve('/src/routes'));
 
 // error handler
 let onerrorConf = {}
@@ -53,12 +53,12 @@ app.use(cors({
   exposeHeaders: ['token'],
 }));
 
-// jwt 验证
-app.use(koaJwt({ 
-  secret: JWT_SECRET_KEY
-}).unless({
-  path: [/^\/users\/login/, /^\/test\/login/]
-})); // unless 排除路由的 验证的路由
+// jwt 验证,项目中没有用到
+// app.use(koaJwt({ 
+//   secret: JWT_SECRET_KEY
+// }).unless({
+//   path: [/^\/users\/login/, /^\/test\/login/]
+// })); // unless 排除路由的 验证的路由
 
 /**
  * session 配置 有使用才会生效
@@ -102,7 +102,9 @@ app.use(async (ctx, next) => {
 })
 
 // routes
-app.use(test.routes(), test.allowedMethods())
+if (!isProd) {
+  app.use(demo.routes(), demo.allowedMethods());
+}
 app.use(users.routes(), users.allowedMethods())
 
 // error-handling

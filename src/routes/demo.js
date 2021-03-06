@@ -1,10 +1,16 @@
+/**
+ * @author 柏运送
+ * @date 2021-03-06 18:48:36
+ * @description 路由以及基本功能测试
+*/
+
 const router = require('koa-router')();
 const jwt = require('jsonwebtoken');
 const util = require('util');
 const verity = util.promisify(jwt.verify);
 router.prefix('/test');
 
-const { SESSION_SECRET_KEY, JWT_SECRET_KEY } = require('../config/keys');
+const { JWT_SECRET_KEY } = require('../constants/keys');
 
 // 页面路由 inspect debugger 测试
 router.get('/', async (ctx, next) => {
@@ -19,8 +25,8 @@ router.get('/', async (ctx, next) => {
 
 // router 错误捕获结合 app.js koa-onerror
 router.get('/string', async (ctx, next) => {
-  throw new Error();
-  // ctx.body = 'koa2 string'
+  // throw new Error();
+  ctx.body = 'koa2 string'
 })
 
 router.get('/error', async (ctx, next) => {
@@ -81,4 +87,4 @@ router.get('/session', async (ctx, next) => {
   }
 })
 
-module.exports = router
+module.exports = router;

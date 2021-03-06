@@ -4,9 +4,9 @@
  * @description 路由入口文件
 */
 
-const test = require('./test');
-const users = require('./users');
+const demo = require('./demo');
+const users = require('./api/users');
 
 module.exports = {
-  test, users
+  demo, users
 }

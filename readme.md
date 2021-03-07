@@ -35,6 +35,7 @@ npm init -y 初始化json文件
 - [x] 删除用户
 - [x] session 会话存储
 - [x] 用户信息加密
+- [x] 数据格式校验
 
 #### 第三方依赖
 - [mysql2 数据库](https://www.npmjs.com/package/mysql2)
@@ -52,6 +53,7 @@ npm init -y 初始化json文件
 - [模型验证](https://itbilu.com/nodejs/npm/V1PExztfb.html#definition-configuration)
 - [koa-jwt](https://www.npmjs.com/package/koa-jwt)
 - [jsonwebtoken](https://www.npmjs.com/package/jsonwebtoken)
+- [ajv json数据格式校验](https://www.npmjs.com/package/ajv#usage)
 
 #### chrome 调试
 ```js

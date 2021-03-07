@@ -4,13 +4,21 @@
  * @description users cotroller
 */
 
-const { create, query, destory, update } = require('../server/users');
-
+const { 
+  create, query, destory, update, hasExitsUser
+} = require('../server/users');
+const { paramsError } = require('../../response/error-info');
 /**
  * @description 创建用户
  * @param { ussename, password, nickName, gender, picture, city, email } 用户信息对象
 */
 async function createUser(body) {
+  const { username, password } = body;
+  if (!username || !password) return new ErrorModule(paramsError);
+  const result = await hasExitsUser(username);
+  if (result) {
+    return result;
+  }
   return await create(body);
 };
 
@@ -19,6 +27,10 @@ async function createUser(body) {
  * @param { userId, username, password } 用户 id, 用户名, 密码
 */
 async function getUserInfo(params = {}, isNeedPwd) {
+  const { userId, username, password } = params;
+  if (!userId && (!username || !password)) {
+    return new ErrorModule(paramsError);
+  }
   return await query(params, isNeedPwd);
 }
 
@@ -27,6 +39,7 @@ async function getUserInfo(params = {}, isNeedPwd) {
  * @param { userId } 用户 id
 */
 async function deleteUser(id) {
+  if (!id) return new ErrorModule(paramsError);
   return await destory(id);
 }
 
@@ -35,6 +48,7 @@ async function deleteUser(id) {
  * @param { userId } 用户 id
 */
 async function updateUserInfo(id, body) {
+  if (!id) return new ErrorModule(paramsError);
   return await update(id, body);
 }
 

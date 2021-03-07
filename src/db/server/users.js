@@ -7,26 +7,31 @@
 const seq = require('../seq');
 const { Users } = require('../module/index');
 const { SuccessModule, ErrorModule } = require('../../response/response');
-const { paramsError, sqlError, serverError, userHasExits } = require('../../response/error-info');
+const { paramsError, sqlError, userHasExits } = require('../../response/error-info');
 
-// 创建用户
-async function create(body) {
-  const { username, password, ...params } = body;
-  if (!username || !password) return new ErrorModule(paramsError);
+// 判断用户是否已存在
+async function hasExitsUser(username) {
   return seq.transaction(async (t) => {
-    // 判断用户是否存在
-    const res = await Users.findOne({
+    const result = await Users.findOne({
       where: { username },
       transaction: t
     });
-    if (res) {
-      console.log('----create------ 用户名称已经存在');
+    if (result) {
       return new ErrorModule(userHasExits);
     }
+    return null;
+  }).catch((err) => {
+    console.log('---user hasExitsUser err', err);
+    return new ErrorModule(sqlError);
+  });
+}
 
+// 创建用户
+async function create(params) {
+  return seq.transaction(async (t) => {
     // 创建用户
     await Users.create(
-      { username, password, ...params },
+      params,
       { transaction: t }
     );
     return new SuccessModule();
@@ -39,9 +44,6 @@ async function create(body) {
 // 获取用户信息
 async function query(params, isNeedPwd = false) {
   const { userId, username, password } = params;
-  if (!userId && (!username || !password)) {
-    return new ErrorModule(paramsError);
-  }
   let whereopt = {};
   if (userId) {
     whereopt.id = userId;
@@ -60,14 +62,13 @@ async function query(params, isNeedPwd = false) {
       transaction: t,
     });
     return new SuccessModule({ data: result });
-  } ).catch(err => {
+  }).catch(err => {
     console.log('------user query err', err);
     return new ErrorModule(sqlError);
   });
 }
 
 async function update(id, params) {
-  if (!id) return new ErrorModule(paramsError);
   return seq.transaction(async (t) => {
     await Users.update(params, {
       where: { id },
@@ -116,7 +117,6 @@ async function update(id, params) {
 
 // 删除用户(建立了外键关联会自动删除用户对应的blog)
 async function destory(id) {
-  if (!id) return new ErrorModule(paramsError);
   return seq.transaction(async (t) => {
     await Users.destroy({
       where: { id },
@@ -130,5 +130,5 @@ async function destory(id) {
 }
 
 module.exports = {
-  create, query, destory, update,
+  create, query, destory, update, hasExitsUser,
 }

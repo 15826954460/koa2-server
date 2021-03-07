@@ -13,7 +13,7 @@ const SCHEMA = {
   description: "A product from Acme's catalog",
   type: 'object',
   properties: {
-    userName: {
+    username: {
       type: 'string',
       pattern: '^[a-zA-Z][a-zA-Z0-9_]+$', // 字母开头，字母数字下划线
       maxLength: 255,
@@ -47,7 +47,7 @@ const SCHEMA = {
       maximum: 3
     }
   },
-  required: [ "userName", "password" ]
+  required: [ "username", "password" ]
 }
 
 /**

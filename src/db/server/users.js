@@ -117,13 +117,13 @@ async function destory(id) {
 }
 
 // 用户登录
-async function login(params) {
+async function login({ username, password }) {
   let attributes = ['id', 'username', 'nickName', 'gender', 'picture', 'city', 'email'];
   return seq.transaction(async (t) => {
     const result = await Users.findOne({
       attributes, // 查询字段
-      where: params,
-      transaction: t,
+      where: { username, password },
+      transaction: t
     });
     if (result) {
       return new SuccessModule({ data: result });

@@ -55,7 +55,7 @@ async function userLogin(params) {
   if (!result) {
     return new ErrorModule(userHasNoExits);
   }
-  return await login({ username, password });
+  return await login({ username, password: doCrypto(password) });
 }
 
 module.exports = {

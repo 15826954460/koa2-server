@@ -15,6 +15,7 @@ function validate(schema, data = {}) {
   const valid = ajv.validate(schema, data);
   // 校验失败
   if (!valid) {
+    console.log('----------validate---', ajv.errors[0])
     return ajv.errors[0]
   }
 }

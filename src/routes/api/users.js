@@ -15,6 +15,9 @@ const {
   userLogin,
 } = require('../../db/controller/users');
 
+const { genValidator } = require('../../middleware/validate');
+const { userValidate } = require('../../validator');
+
 /**
  * @description 创建用户
  * @param { string } username 用户名 必填
@@ -25,8 +28,8 @@ const {
  * @param { string } city 城市 非必填
  * @param { string } email 邮箱 非必填
 */
-router.post('/create', async (ctx, next) => {
-  const { 
+router.post('/create', genValidator(userValidate), async (ctx, next) => {
+  const {
     request: { body }
   } = ctx;
   ctx.body = await createUser(body);
@@ -37,7 +40,7 @@ router.post('/create', async (ctx, next) => {
  * @param { int } userId 用户id 必填
 */
 router.get('/getUserInfo', async (ctx, next) => {
-  const { 
+  const {
     query: { id },
   } = ctx;
   ctx.body = await getUserInfo(id);
@@ -77,7 +80,7 @@ router.del('/delete/:id', async (ctx, next) => {
  * @param { string } password 密码 必填
 */
 router.post('/login', async (ctx, next) => {
-  const { 
+  const {
     request: { body }
   } = ctx;
   const { code, data, msg } = await userLogin(body);

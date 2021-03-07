@@ -21,6 +21,10 @@ module.exports = {
     code: 10005,
     msg: '用户名或密码错误'
   },
+  validateDataError: {
+    code: 10006,
+    msg: '数据格式有误,请重新检查',
+  },
   sqlError: {
     code: 10064,
     msg: 'Sql error'

@@ -28,19 +28,18 @@ https://github.com/15826954460/koa2-server.git
 #### Init package.json
 npm init -y 初始化json文件
 
-#### chrome 调试
-```js
-- "dev": "cross-env NODE_ENV=development ./node_modules/.bin/nodemon bin/www",
-+ "dev": "cross-env NODE_ENV=development ./node_modules/.bin/nodemon --inspect=9229 bin/www",
-```
-- 运行项目: npm run dev
-- 浏览器启动项目: localhost:9999
-- 打开新的窗口,输入 chrome://inspect 点击 Open dedicated DevTools for Node 即可查看日志
-- 支持直接输入 debugger 进行调试
+#### 已实现
+- [x] 用户登录
+- [x] 用户注册
+- [x] 用户信息查询
+- [x] 删除用户
+- [x] session 会话存储
+- [x] 用户信息加密
 
 #### 第三方依赖
 - [mysql2 数据库](https://www.npmjs.com/package/mysql2)
-- [sequelize ORM框架](https://www.sequelize.com.cn/core-concepts/model-basics)
+- [sequelize ORM框架 https://itbilu.com/nodejs/npm/V1PExztfb.html#api-destroy](https://www.sequelize.com.cn/core-concepts/model-basics)
+- [koa-router](https://github.com/koajs/router/blob/HEAD/API.md#module_koa-router--Router+allowedMethods)
 - [koa-generic-session 创建session](https://www.npmjs.com/package/koa-generic-session)
 - [koa-redis reids 连接](https://www.npmjs.com/package/koa-redis)
 - [redis 内存数据库](https://www.npmjs.com/package/redis)
@@ -53,6 +52,16 @@ npm init -y 初始化json文件
 - [模型验证](https://itbilu.com/nodejs/npm/V1PExztfb.html#definition-configuration)
 - [koa-jwt](https://www.npmjs.com/package/koa-jwt)
 - [jsonwebtoken](https://www.npmjs.com/package/jsonwebtoken)
+
+#### chrome 调试
+```js
+- "dev": "cross-env NODE_ENV=development ./node_modules/.bin/nodemon bin/www",
++ "dev": "cross-env NODE_ENV=development ./node_modules/.bin/nodemon --inspect=9229 bin/www",
+```
+- 运行项目: npm run dev
+- 浏览器启动项目: localhost:9999
+- 打开新的窗口,输入 chrome://inspect 点击 Open dedicated DevTools for Node 即可查看日志
+- 支持直接输入 debugger 进行调试
 
 #### jwt 使用说明
 ```
@@ -71,10 +80,15 @@ Authorization: Bearer (服务端返回给前端的token)
 ```
 
 #### 登录存储用户相关信息 jwt vs session
-| jwt | session |
-|:-------- |:---- |
-| 用户信息加密存储在客户端,不依赖cookie,可跨域     | 用户信息加密存储在服务端,依赖cookie,不可跨域 |
-| 更适合服务节点较多,跨域比较多的系统 | 更适合统一的web服务,server 要求严管用户信息|
+jwt 优点
+- 应用程序分布式部署的情况下，session需要做多机数据共享，通常可以存在数据库或者redis里面。而jwt不需要
+- jwt不在服务端存储任何状态。另外jwt的载荷中可以存储一些常用信息，用于交换信息，有效地使用 JWT，可以降低服务器查询数据库的次数
+- 用户信息加密存储在客户端,不依赖cookie,可跨域
+
+缺点
+- 由于jwt的payload是使用base64编码的，并没有加密，因此jwt中不能存储敏感数据。而session的信息是存在服务端的，相对来说更安全
+- jwt 过长会导致请求头过大, http请求比使用session的开销大得多
+- 无状态是jwt的特点，但也导致了这个问题，jwt是一次性的。想修改里面的内容，就必须签发一个新的jwt。
 
 #### mocha 单元测试
 `
@@ -87,4 +101,4 @@ Authorization: Bearer (服务端返回给前端的token)
 `
 
 ##### 学习记录
-jest 基本使用 3-15
+jest 基本使用 5-

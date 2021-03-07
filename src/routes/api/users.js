@@ -16,11 +16,13 @@ const {
 
 /**
  * @description 创建用户
- * @param { object:
- *  { 
- *    username, password, // 必填
- *    nickName, gender, picture, city, email // 非必填
- *  }
+ * @param { string } username 用户名 必填
+ * @param { string } password 密码 必填
+ * @param { string } nickName 别名 非必填
+ * @param { number } gender 性别(1:男 2:女 3:保密) 非必填
+ * @param { string } picture 用户头像 非必填
+ * @param { string } city 城市 非必填
+ * @param { string } email 邮箱 非必填
  * }
 */
 router.post('/create', async (ctx, next) => {
@@ -32,7 +34,7 @@ router.post('/create', async (ctx, next) => {
 
 /**
  * @description 获取用户信息
- * @param { object: { userId | username, password } }
+ * @param { int } userId 用户id 必填
 */
 router.get('/getUserInfo', async (ctx, next) => {
   const { 
@@ -43,7 +45,7 @@ router.get('/getUserInfo', async (ctx, next) => {
 
 /**
  * @description 修改用户信息
- * @param { id } 用户id
+ * @param { int } id 用户id 必填
 */
 router.put('/update/:id', async (ctx, next) => {
   const {
@@ -55,7 +57,7 @@ router.put('/update/:id', async (ctx, next) => {
 
 /**
  * @description 删除用户
- * @param { id } 用户id
+ * @param { int } id 用户id 必填
 */
 router.del('/delete/:id', async (ctx, next) => {
   const {
@@ -66,7 +68,8 @@ router.del('/delete/:id', async (ctx, next) => {
 
 /**
  * @description 登录
- * @param { username, password }
+ * @param { string } username 用户名 必填
+ * @param { string } password 密码 必填
 */
 router.post('/login', async (ctx, next) => {
   const { 

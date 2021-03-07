@@ -24,7 +24,6 @@ const {
  * @param { string } picture 用户头像 非必填
  * @param { string } city 城市 非必填
  * @param { string } email 邮箱 非必填
- * }
 */
 router.post('/create', async (ctx, next) => {
   const { 

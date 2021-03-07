@@ -9,16 +9,21 @@ const {
 } = require('../server/users');
 const { ErrorModule } = require('../../response/response');
 const { paramsError, userHasNoExits, userHasExits } = require('../../response/error-info');
+const doCrypto = require('../../utils/crypto');
 
 /** 创建用户 */
 async function createUser(body) {
-  const { username, password } = body;
+  const { username, password, nickName, ...params } = body;
   if (!username || !password) return new ErrorModule(paramsError);
   const result = await hasExitsUser(username);
   if (result) {
     return new ErrorModule(userHasExits);
   }
-  return await create(body);
+  return await create({
+    ...params, username,
+    password: doCrypto(password),
+    nickName: nickName || username 
+  });
 };
 
 /** 获取用户信息 */

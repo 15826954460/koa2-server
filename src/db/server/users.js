@@ -33,7 +33,7 @@ async function create(params) {
     );
     return new SuccessModule();
   }).catch(err => {
-    console.log('---user create err', err);
+    console.error('---user create err', err);
     return new ErrorModule(sqlError);
   });
 }
@@ -131,7 +131,7 @@ async function login(params) {
     // 账号或密码错误
     return new ErrorModule(loginError);;
   }).catch(err => {
-    console.log('------user query err', err);
+    console.error('------user query err', err);
     return new ErrorModule(sqlError);
   });
 }

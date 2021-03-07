@@ -26,16 +26,16 @@ async function getUserInfo(params = {}, isNeedPwd) {
  * @description 删除用户
  * @param { userId } 用户 id
 */
-async function deleteUser(userId) {
-  return await destory(userId);
+async function deleteUser(id) {
+  return await destory(id);
 }
 
 /**
  * @description 修改用户信息
  * @param { userId } 用户 id
 */
-async function updateUserInfo(userId) {
-  return await update(userId);
+async function updateUserInfo(id, params) {
+  return await update(id, params);
 }
 
 module.exports = {

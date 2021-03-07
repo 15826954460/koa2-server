@@ -65,7 +65,7 @@ async function query(params, isNeedPwd = false) {
   });
 }
 
-async function update(id) {
+async function update(id, params) {
   if (!id) return new ErrorModule(paramsError);
 }
 

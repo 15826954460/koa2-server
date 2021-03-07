@@ -5,13 +5,21 @@
 */
 
 module.exports = {
+  paramsError: {
+    code: 10001,
+    msg: 'Invalid params'
+  },
   userHasExits: {
     code: 10002,
     msg: '用户已存在'
   },
-  paramsError: {
-    code: 10001,
-    msg: 'Invalid params'
+  userHasNoExits: {
+    code: 10004,
+    msg: '用户名不存在'
+  },
+  loginError: {
+    code: 10005,
+    msg: '用户名或密码错误'
   },
   sqlError: {
     code: 10064,

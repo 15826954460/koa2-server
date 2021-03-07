@@ -34,7 +34,7 @@ router.get('/getUserInfo', async (ctx, next) => {
 })
 
 /** 修改用户信息 */
-router.put('/update/id', async (ctx, next) => {
+router.put('/update/:id', async (ctx, next) => {
   const {
     params: { id },
     request: { body },

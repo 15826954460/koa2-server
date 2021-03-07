@@ -16,17 +16,19 @@ async function create(body) {
   return seq.transaction(async (t) => {
     // 判断用户是否存在
     const res = await Users.findOne({
-      where: { username }
-    }, { transaction: t });
+      where: { username },
+      transaction: t
+    });
     if (res) {
       console.log('----create------ 用户名称已经存在');
       return new ErrorModule(userHasExits);
     }
 
     // 创建用户
-    await Users.create({ username, password, ...params }, {
-      transaction: t
-    });
+    await Users.create(
+      { username, password, ...params },
+      { transaction: t }
+    );
     return new SuccessModule();
   }).catch(err => {
     console.log('---user create err', err);
@@ -55,7 +57,6 @@ async function query(params, isNeedPwd = false) {
     const result = await Users.findOne({
       attributes, // 查询字段
       where: whereopt,
-    }, {
       transaction: t,
     });
     return new SuccessModule({ data: result });
@@ -67,6 +68,16 @@ async function query(params, isNeedPwd = false) {
 
 async function update(id, params) {
   if (!id) return new ErrorModule(paramsError);
+  return seq.transaction(async (t) => {
+    await Users.update(params, {
+      where: { id },
+      transaction: t
+    });
+    return new SuccessModule();
+  }).catch(err => {
+    console.log('------user update err', err);
+    return new ErrorModule(sqlError);
+  });
 }
 
 // 查询用户
@@ -107,12 +118,10 @@ async function update(id, params) {
 async function destory(id) {
   if (!id) return new ErrorModule(paramsError);
   return seq.transaction(async (t) => {
-    const result = await Users.destroy({
-      where: { id }
-    }, {
+    await Users.destroy({
+      where: { id },
       transaction: t
     });
-    console.log('-----destory-------', result);
     return new SuccessModule();
   }).catch((err) => {
     console.log('------user destory err', err);

@@ -34,8 +34,8 @@ async function deleteUser(id) {
  * @description 修改用户信息
  * @param { userId } 用户 id
 */
-async function updateUserInfo(id, params) {
-  return await update(id, params);
+async function updateUserInfo(id, body) {
+  return await update(id, body);
 }
 
 module.exports = {

@@ -17,6 +17,7 @@ const {
 
 const { genValidator } = require('../../middleware/validate');
 const { userValidate } = require('../../validator');
+const { loginCheck } = require('../../middleware/login-check');
 
 /**
  * @description 创建用户
@@ -39,7 +40,7 @@ router.post('/create', genValidator(userValidate), async (ctx, next) => {
  * @description 获取用户信息
  * @param { int } userId 用户id 必填
 */
-router.get('/getUserInfo', async (ctx, next) => {
+router.get('/getUserInfo', loginCheck, async (ctx, next) => {
   const {
     query: { id },
   } = ctx;
@@ -55,7 +56,7 @@ router.get('/getUserInfo', async (ctx, next) => {
  * @param { string } city 城市 非必填
  * @param { string } email 邮箱 非必填
 */
-router.put('/update/:id', async (ctx, next) => {
+router.put('/update/:id', loginCheck, async (ctx, next) => {
   const {
     params: { id },
     request: { body },
@@ -67,7 +68,7 @@ router.put('/update/:id', async (ctx, next) => {
  * @description 删除用户
  * @param { int } id 用户id 必填
 */
-router.del('/delete/:id', async (ctx, next) => {
+router.del('/delete/:id', loginCheck, async (ctx, next) => {
   const {
     params: { id }
   } = ctx;

@@ -11,6 +11,7 @@ const verity = util.promisify(jwt.verify);
 router.prefix('/');
 
 const { JWT_SECRET_KEY } = require('../constants/keys');
+const { loginCheck } = require('../middleware/login-check');
 
 // 页面路由 inspect debugger 测试
 router.get('/', async (ctx, next) => {
@@ -21,12 +22,6 @@ router.get('/', async (ctx, next) => {
   await ctx.render('index', {
     title: 'Hello Koa 2!'
   })
-})
-
-// router 错误捕获结合 app.js koa-onerror
-router.get('/string', async (ctx, next) => {
-  // throw new Error();
-  ctx.body = 'koa2 string'
 })
 
 router.get('/error', async (ctx, next) => {
@@ -84,6 +79,23 @@ router.get('/session', async (ctx, next) => {
   session.count++;
   ctx.body = {
     session_count: session.count
+  }
+})
+
+// router 错误捕获结合 app.js koa-onerror
+router.get('/string', loginCheck, async (ctx, next) => {
+  ctx.body = 'koa2 string'
+})
+
+router.get('/login', async (ctx, next) => {
+  const userInfo = ctx.session && ctx.session.userInfo;
+  if (!userInfo) {
+    ctx.session.userInfo = { username: 'test_001', gender: "nan" }
+  }
+  ctx.body = {
+    code: 0,
+    msg: "登录成功",
+    // data: ctx.session.userInfo
   }
 })
 

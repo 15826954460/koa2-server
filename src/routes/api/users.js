@@ -14,7 +14,15 @@ const {
   getUserInfo
 } = require('../../db/controller/users');
 
-/** 创建 */
+/**
+ * @description 创建用户
+ * @param { object:
+ *  { 
+ *    username, password, // 必填
+ *    nickName, gender, picture, city, email // 非必填
+ *  }
+ * }
+*/
 router.post('/create', async (ctx, next) => {
   const { 
     request: { body }
@@ -24,7 +32,7 @@ router.post('/create', async (ctx, next) => {
 
 /**
  * @description 获取用户信息
- * @param { userId, username, password } 
+ * @param { object: { userId | username, password } }
 */
 router.get('/getUserInfo', async (ctx, next) => {
   const { 
@@ -33,7 +41,10 @@ router.get('/getUserInfo', async (ctx, next) => {
   ctx.body = await getUserInfo(query);
 })
 
-/** 修改用户信息 */
+/**
+ * @description 修改用户信息
+ * @param { id } 用户id
+*/
 router.put('/update/:id', async (ctx, next) => {
   const {
     params: { id },
@@ -42,7 +53,10 @@ router.put('/update/:id', async (ctx, next) => {
   ctx.body = await updateUserInfo(id, body);
 })
 
-/** 删除用户 */
+/**
+ * @description 删除用户
+ * @param { id } 用户id
+*/
 router.del('/delete/:id', async (ctx, next) => {
   const {
     params: { id }
@@ -50,7 +64,10 @@ router.del('/delete/:id', async (ctx, next) => {
   ctx.body = await deleteUser(id);
 })
 
-/** 登录 */
+/**
+ * @description 登录
+ * @param { username, password }
+*/
 router.post('/login', async (ctx, next) => {
   const { 
     request: { body }

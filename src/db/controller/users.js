@@ -28,7 +28,7 @@ async function createUser(body) {
 */
 async function getUserInfo(params = {}, isNeedPwd) {
   const { userId, username, password } = params;
-  if (!userId && (!username || !password)) {
+  if (!userId && !(username && password)) {
     return new ErrorModule(paramsError);
   }
   return await query(params, isNeedPwd);

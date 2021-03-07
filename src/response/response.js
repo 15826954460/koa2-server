@@ -9,13 +9,9 @@
  */
 class BaseModule {
   constructor({ code, data, msg }) {
-    this.code = code
-    if (data) {
-      this.data = data
-    }
-    if (msg) {
-      this.msg = msg
-    }
+    this.code = code;
+    this.msg = msg;
+    this.data = data;
   }
 }
 
@@ -23,13 +19,13 @@ class BaseModule {
  * @description success 数据模型
  */
 class SuccessModule extends BaseModule {
-  constructor({ data = {}, msg = '', code = 0 } = {}) {
-    super({ code, data, msg })
+  constructor({ code = 0, msg = 'success', data = {} } = {}) {
+    super({ code, msg, data })
   }
 }
 
 class ErrorModule extends BaseModule {
-  constructor({ code = -1, msg = '', data = {} } = {}) {
+  constructor({ code = -1, msg = 'error', data = {} } = {}) {
     super({ code, msg, data })
   }
 }

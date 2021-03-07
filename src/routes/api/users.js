@@ -11,7 +11,8 @@ const {
   createUser,
   deleteUser,
   updateUserInfo,
-  getUserInfo
+  getUserInfo,
+  userLogin,
 } = require('../../db/controller/users');
 
 /**
@@ -38,14 +39,19 @@ router.post('/create', async (ctx, next) => {
 */
 router.get('/getUserInfo', async (ctx, next) => {
   const { 
-    request: { query }
+    query: { id },
   } = ctx;
-  ctx.body = await getUserInfo(query);
+  ctx.body = await getUserInfo(id);
 })
 
 /**
  * @description 修改用户信息
  * @param { int } id 用户id 必填
+ * @param { string } nickName 别名 非必填
+ * @param { number } gender 性别(1:男 2:女 3:保密) 非必填
+ * @param { string } picture 用户头像 非必填
+ * @param { string } city 城市 非必填
+ * @param { string } email 邮箱 非必填
 */
 router.put('/update/:id', async (ctx, next) => {
   const {
@@ -75,12 +81,11 @@ router.post('/login', async (ctx, next) => {
   const { 
     request: { body }
   } = ctx;
-  const { code, data: { password, ...userInfo } } = await getUserInfo(body, true);
-  const { username } = userInfo;
-  if (code === 0 && username && password && !ctx.session.userInfo) {
-    ctx.session.userInfo = userInfo;
+  const { code, data, msg } = await userLogin(body);
+  if (code === 0 && !ctx.session.userInfo) {
+    ctx.session.userInfo = data;
   }
-  ctx.body = { code, data: userInfo };
+  ctx.body = { code, msg, data };
 })
 
 module.exports = router;

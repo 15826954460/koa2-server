@@ -4,52 +4,53 @@
  * @description users cotroller
 */
 
-const { 
-  create, query, destory, update, hasExitsUser
+const {
+  create, query, destory, update, hasExitsUser, login
 } = require('../server/users');
-const { paramsError } = require('../../response/error-info');
-/**
- * @description 创建用户
- * @param { ussename, password, nickName, gender, picture, city, email } 用户信息对象
-*/
+const { ErrorModule } = require('../../response/response');
+const { paramsError, userHasNoExits, userHasExits } = require('../../response/error-info');
+
+/** 创建用户 */
 async function createUser(body) {
   const { username, password } = body;
   if (!username || !password) return new ErrorModule(paramsError);
   const result = await hasExitsUser(username);
   if (result) {
-    return result;
+    return new ErrorModule(userHasExits);
   }
   return await create(body);
 };
 
-/**
- * @description 获取用户信息
- * @param { userId, username, password } 用户 id, 用户名, 密码
-*/
-async function getUserInfo(params = {}, isNeedPwd) {
-  const { userId, username, password } = params;
-  if (!userId && !(username && password)) {
-    return new ErrorModule(paramsError);
-  }
-  return await query(params, isNeedPwd);
+/** 获取用户信息 */
+async function getUserInfo(id) {
+  if (!id) return new ErrorModule(paramsError);
+  return await query(id);
 }
 
-/**
- * @description 删除用户
- * @param { userId } 用户 id
-*/
+/** 删除用户 */
 async function deleteUser(id) {
   if (!id) return new ErrorModule(paramsError);
   return await destory(id);
 }
 
-/**
- * @description 修改用户信息
- * @param { userId } 用户 id
-*/
+/** 修改用户信息 */
 async function updateUserInfo(id, body) {
   if (!id) return new ErrorModule(paramsError);
   return await update(id, body);
+}
+
+/** 登陆 */
+async function userLogin(params) {
+  const { username, password } = params;
+  if (!username || !password) {
+    return new ErrorModule(paramsError);
+  }
+  // 判断用户名是否存在
+  const result = await hasExitsUser(username);
+  if (!result) {
+    return new ErrorModule(userHasNoExits);
+  }
+  return await login({ username, password });
 }
 
 module.exports = {
@@ -57,4 +58,5 @@ module.exports = {
   deleteUser,
   updateUserInfo,
   getUserInfo,
+  userLogin,
 }

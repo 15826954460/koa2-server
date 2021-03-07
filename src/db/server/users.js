@@ -7,7 +7,7 @@
 const seq = require('../seq');
 const { Users } = require('../module/index');
 const { SuccessModule, ErrorModule } = require('../../response/response');
-const { paramsError, sqlError, userHasExits } = require('../../response/error-info');
+const { sqlError, loginError } = require('../../response/error-info');
 
 // 判断用户是否已存在
 async function hasExitsUser(username) {
@@ -16,10 +16,7 @@ async function hasExitsUser(username) {
       where: { username },
       transaction: t
     });
-    if (result) {
-      return new ErrorModule(userHasExits);
-    }
-    return null;
+    return result;
   }).catch((err) => {
     console.log('---user hasExitsUser err', err);
     return new ErrorModule(sqlError);
@@ -42,23 +39,12 @@ async function create(params) {
 }
 
 // 获取用户信息
-async function query(params, isNeedPwd = false) {
-  const { userId, username, password } = params;
-  let whereopt = {};
-  if (userId) {
-    whereopt.id = userId;
-  }
-  if (username && password) {
-    whereopt = { ...whereopt, username, password };
-  }
+async function query(id) {
   let attributes = ['id', 'username', 'nickName', 'gender', 'picture', 'city', 'email'];
-  if (isNeedPwd) {
-    attributes.push('password');
-  }
   return seq.transaction(async (t) => {
     const result = await Users.findOne({
       attributes, // 查询字段
-      where: whereopt,
+      where: { id },
       transaction: t,
     });
     return new SuccessModule({ data: result });
@@ -68,6 +54,7 @@ async function query(params, isNeedPwd = false) {
   });
 }
 
+// 修改用户信息
 async function update(id, params) {
   return seq.transaction(async (t) => {
     await Users.update(params, {
@@ -129,6 +116,26 @@ async function destory(id) {
   });
 }
 
+// 用户登录
+async function login(params) {
+  let attributes = ['id', 'username', 'nickName', 'gender', 'picture', 'city', 'email'];
+  return seq.transaction(async (t) => {
+    const result = await Users.findOne({
+      attributes, // 查询字段
+      where: params,
+      transaction: t,
+    });
+    if (result) {
+      return new SuccessModule({ data: result });
+    }
+    // 账号或密码错误
+    return new ErrorModule(loginError);;
+  }).catch(err => {
+    console.log('------user query err', err);
+    return new ErrorModule(sqlError);
+  });
+}
+
 module.exports = {
-  create, query, destory, update, hasExitsUser,
+  create, query, destory, update, hasExitsUser, login,
 }

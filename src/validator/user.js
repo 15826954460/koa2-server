@@ -47,7 +47,7 @@ const SCHEMA = {
       maximum: 3
     }
   },
-  required: [ "username", "password" ]
+  required: [ "username" ]
 }
 
 /**

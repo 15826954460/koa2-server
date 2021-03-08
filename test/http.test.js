@@ -10,10 +10,10 @@ const server = require('./server');
 describe('http get json', () => {
   it(`get json 返回数据格式正确`, async () => {
     const getRes = await server.get('/json'); // get 请求
-    const posRes = await server.post('/login').send({
-      userName: 'xxxx',
-      password: 123,
-    }); // post 请求
+    // const posRes = await server.post('/login').send({
+    //   userName: 'xxxx',
+    //   password: 123,
+    // }); // post 请求
     assert.deepStrictEqual(getRes.body, { title: 'koa2 json' });
   });
 

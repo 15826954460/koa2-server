@@ -56,7 +56,7 @@ router.get('/getUserInfo', loginCheck, async (ctx, next) => {
  * @param { string } city 城市 非必填
  * @param { string } email 邮箱 非必填
 */
-router.put('/update/:id', loginCheck, async (ctx, next) => {
+router.put('/update/:id', genValidator(userValidate), loginCheck, async (ctx, next) => {
   const {
     params: { id },
     request: { body },

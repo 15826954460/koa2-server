@@ -83,8 +83,12 @@ router.get('/session', async (ctx, next) => {
 })
 
 // router 错误捕获结合 app.js koa-onerror
-router.get('/string', loginCheck, async (ctx, next) => {
+router.get('/string', async (ctx, next) => {
   ctx.body = 'koa2 string'
+})
+
+router.get('/json', async (ctx, next) => {
+  ctx.body = { title: 'koa2 json' };
 })
 
 router.get('/login', async (ctx, next) => {

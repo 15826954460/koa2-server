@@ -7,7 +7,7 @@
 const router = require('koa-router')();
 router.prefix('/api/user');
 
-const { ErrorModule } = require('../../response/response')
+const { ErrorModule, SuccessModule } = require('../../response/response')
 const { hasNoLoginErrorInfo } = require('../../response/error-info')
 
 const {
@@ -98,6 +98,15 @@ router.post('/login', async (ctx, next) => {
     ctx.session.userInfo = data;
   }
   ctx.body = { code, msg, data };
+})
+
+/**
+ * @description 退出登录
+ * @param {*} 
+*/
+router.post('/loginOut', loginCheck, async (ctx, next) => {
+  delete ctx.session.userInfo;
+  ctx.body = new SuccessModule();
 })
 
 module.exports = router;

@@ -7,6 +7,9 @@
 const router = require('koa-router')();
 router.prefix('/api/user');
 
+const { ErrorModule } = require('../../response/response')
+const { hasNoLoginErrorInfo } = require('../../response/error-info')
+
 const {
   createUser,
   deleteUser,
@@ -65,13 +68,19 @@ router.put('/update/:id', genValidator(userValidate), loginCheck, async (ctx, ne
 })
 
 /**
- * @description 删除用户
+ * @description 注销用户
  * @param { int } id 用户id 必填
 */
 router.del('/delete/:id', loginCheck, async (ctx, next) => {
   const {
     params: { id }
   } = ctx;
+  // 判断是不是当前用户(用户只能注销自己)
+  const { id: userId } = ctx.session && ctx.session.userInfo || {};
+  if (userId !== id) {
+    ctx.body = new ErrorModule(hasNoLoginErrorInfo);
+    return 
+  }
   ctx.body = await deleteUser(id);
 })
 

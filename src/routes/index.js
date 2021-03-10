@@ -6,7 +6,8 @@
 
 const demo = require('./demo');
 const users = require('./api/users');
+const uploadFile = require('./api/upload-file');
 
 module.exports = {
-  demo, users
+  demo, users, uploadFile
 }

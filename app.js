@@ -3,13 +3,15 @@ const app = new Koa()
 const views = require('koa-views')
 const json = require('koa-json')
 const onerror = require('koa-onerror')
-const bodyparser = require('koa-bodyparser')
+// const bodyparser = require('koa-bodyparser')
+const koaBody = require('koa-body');
 const logger = require('koa-logger')
 const path = require('path');
 const session = require('koa-generic-session');
 const redisStore = require('koa-redis');
 const cors = require('koa2-cors');
 const koaJwt = require('koa-jwt');
+const koaStatic = require('koa-static');
 
 function resolve(dir) {
   return path.join(__dirname, dir);
@@ -22,7 +24,7 @@ const { SESSION_SECRET_KEY, JWT_SECRET_KEY } = require(resolve('/src/constants/k
 /**
  * @description 路由
 */
-const { demo, users } = require(resolve('/src/routes'));
+const { demo, users, uploadFile } = require(resolve('/src/routes'));
 
 // error handler
 let onerrorConf = {}
@@ -82,12 +84,14 @@ app.use(session({
 }));
 
 // middlewares
-app.use(bodyparser({
-  enableTypes: ['json', 'form', 'text']
-}))
+// app.use(koaBody({
+//   enableTypes: ['json', 'form', 'text']
+// }))
 app.use(json())
 app.use(logger())
-app.use(require('koa-static')(__dirname + '/public'))
+app.use(koaStatic(__dirname + '/public'))
+app.use(koaBody({ multipart: true }))
+app.use(koaStatic(path.join(__dirname, '/uploadFiles')))
 
 app.use(views(__dirname + '/src/views', {
   extension: 'pug'
@@ -105,7 +109,8 @@ app.use(async (ctx, next) => {
 if (!isProd) {
   app.use(demo.routes(), demo.allowedMethods());
 }
-app.use(users.routes(), users.allowedMethods())
+app.use(users.routes(), users.allowedMethods());
+app.use(uploadFile.routes(), uploadFile.allowedMethods());
 
 // error-handling
 app.on('error', (err, ctx) => {

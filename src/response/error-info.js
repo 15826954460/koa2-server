@@ -29,6 +29,18 @@ module.exports = {
     code: 10007,
     msg: "您尚未登录,请登录后再访问"
   },
+  fileUploadFail: {
+    code: 10008,
+    msg: "未获取到文件"
+  },
+  fileUploaSizeFail: {
+    code: 10009,
+    msg: "文件大小超出限制"
+  },
+  fileUploadTypeFail: {
+    code: 10010,
+    msg: "文件类型不支持"
+  },
   sqlError: {
     code: 10064,
     msg: 'Sql error'

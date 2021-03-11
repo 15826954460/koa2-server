@@ -64,7 +64,17 @@ router.put('/update/:id', genValidator(userValidate), loginCheck, async (ctx, ne
     params: { id },
     request: { body },
   } = ctx;
-  ctx.body = await updateUserInfo(id, body);
+  const result = await updateUserInfo(id, body);
+  const { code } = result;
+  // 修改用户信息成功,跟新session
+  if (code === 0) {
+    const userInfo = ctx.session.userInfo || {};
+    ctx.session.userInfo = {
+      ...userInfo,
+      ...body
+    }
+  }
+  ctx.body = result;
 })
 
 /**

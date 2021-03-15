@@ -24,7 +24,7 @@ router.prefix('/api/file');
 router.post('/upload', loginCheck, async (ctx, next) => {
   // 单个文件，返回文件对象，多个文件 返回列表
   const { request: { files } } = ctx;
-  ctx.body = await fileUpload(files)
+  ctx.body = await fileUpload(files);
 })
 
 module.exports = router;

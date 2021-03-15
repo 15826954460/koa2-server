@@ -16,6 +16,7 @@ const {
   updateUserInfo,
   getUserInfo,
   userLogin,
+  changePassword,
 } = require('../../db/controller/users');
 
 const { genValidator } = require('../../middleware/validate');
@@ -117,6 +118,13 @@ router.post('/login', async (ctx, next) => {
 router.post('/loginOut', loginCheck, async (ctx, next) => {
   delete ctx.session.userInfo;
   ctx.body = new SuccessModule();
+})
+
+router.post('/changePassword', loginCheck, async (ctx) => {
+  const {
+    request: { body }
+  } = ctx;
+  ctx.body = await changePassword(body);
 })
 
 module.exports = router;

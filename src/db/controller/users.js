@@ -5,7 +5,7 @@
 */
 
 const {
-  create, query, destory, update, hasExitsUser, login
+  create, query, destory, update, hasExitsUser, login, updatePassword
 } = require('../server/users');
 const { ErrorModule } = require('../../response/response');
 const { paramsError, userHasNoExits, userHasExits } = require('../../response/error-info');
@@ -58,10 +58,25 @@ async function userLogin(params) {
   return await login({ username, password: doCrypto(password) });
 }
 
+/** 修改密码 */
+async function changePassword({ username, password, newPassword }) {
+  if (!username || !password) {
+    return new ErrorModule(paramsError);
+  }
+  // 判断用户名是否存在
+  const result = await hasExitsUser(username);
+  console.log("-------------", result);
+  if (!result) {
+    return new ErrorModule(userHasNoExits);
+  }
+  return await updatePassword({ username, password: doCrypto(password), newPassword: doCrypto(newPassword) });
+}
+
 module.exports = {
   createUser,
   deleteUser,
   updateUserInfo,
   getUserInfo,
   userLogin,
+  changePassword,
 }

@@ -136,6 +136,31 @@ async function login({ username, password }) {
   });
 }
 
+// 修改密码
+async function updatePassword({ username, password, newPassword }) {
+  // 判断用户是否存在
+  return seq.transaction(async (t) => {
+    const result = await Users.findOne({
+      where: { username, password },
+      transaction: t
+    });
+    if (!result) {
+      return new ErrorModule(loginError);
+    }
+    await Users.update(
+      { password: newPassword },
+      {
+        where: { password, username },
+        transaction: t
+      }
+    );
+    return new SuccessModule();
+  }).catch(err => {
+    console.log('------------->>> update password fail');
+    return new ErrorModule(sqlError);
+  })
+}
+
 module.exports = {
-  create, query, destory, update, hasExitsUser, login,
+  create, query, destory, update, hasExitsUser, login, updatePassword
 }
